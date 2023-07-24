@@ -1,0 +1,68 @@
+version: '3'
+services:
+  rest-server:
+    build:
+      context: ./rest-server
+      dockerfile: Dockerfile
+    ports:
+      - 3000:3000
+    depends_on:
+      - mongodb
+
+  soap-server:
+    build:
+      context: ./soap-server
+    ports:
+      - 8000:8000
+    entrypoint: node soap-server.js
+
+  frontend:
+    build:
+      context: ./frontend
+    ports:
+      - 80:3000
+    depends_on:
+      - rest-server
+    # volumes:
+      # - mongo-data:/data/db
+  mongodb:
+    image: mongo
+    ports:
+      - 27017:27017
+    volumes:
+      - mongo-data:/data/db
+
+volumes:
+  mongo-data:
+
+
+# version: '3'
+# services:
+#   backend: 
+#     networks: 
+#       - backend 
+#     build:
+#       context: ./backend 
+#       dockerfile: Dockerfile 
+#     ports:
+#      - 3000:3000
+#     depends_on: 
+#       - mongodb 
+#   frontend: 
+#   networks: 
+#     - backend
+#   build: 
+#     context: ./frontend 
+#     ports: - 80:3000 
+#     depends_on:
+#     - backend 
+#   mongodb: 
+#   networks:
+#   - backend 
+#   image: mongo
+#   ports: - 27017:27017 
+#   volumes:
+#   - mongo-data:/data/db
+#   volumes:
+#   mongo-data:
+#   networks: backend:*

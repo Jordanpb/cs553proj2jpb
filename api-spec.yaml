@@ -1,0 +1,113 @@
+openapi: 3.0.0
+info:
+  title: madmikes
+  version: 1.0.0
+servers:
+  - url: http://localhost:3000
+paths:
+  /cars:
+    post:
+      tags:
+        - default
+      summary: http://localhost:3000/cars
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                vin: AB123456789
+                plateNumber: TESTCAR
+                state: AL
+                make: Toyota
+                model: Cam
+                year: 2020
+                ownerName: Jim
+                ownerAddress: 100 maple st
+                dlNumber: '8001234'
+                problemDescription: broken window
+                timeInShop: 20
+                workers:
+                  - Stan
+                  - Lee
+      parameters:
+        - name: Accept
+          in: header
+          schema:
+            type: string
+          example: application/json
+        - name: Content-Type
+          in: header
+          schema:
+            type: string
+          example: application/json
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+    get:
+      tags:
+        - default
+      summary: http://localhost:3000/cars
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /cars/6491246be889d87e7a93500a:
+    delete:
+      tags:
+        - default
+      summary: http://localhost:3000/cars/6491246be889d87e7a93500a
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /cars/649129c19e2b11575c182daf:
+    put:
+      tags:
+        - default
+      summary: http://localhost:3000/cars/649129c19e2b11575c182daf
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                vin: NEWVIN123456789
+                plateNumber: NEWPLATE
+                state: NY
+                make: Ford
+                model: Mustang
+                year: 2022
+                ownerName: John
+                ownerAddress: 200 Oak St
+                dlNumber: '9001234'
+                problemDescription: Engine Overheating
+                timeInShop: 15
+                workers:
+                  - Mike
+                  - Tom
+      parameters:
+        - name: Content-Type
+          in: header
+          schema:
+            type: string
+          example: application/json
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /cars/649124f8e889d87e7a93500d:
+    get:
+      tags:
+        - default
+      summary: http://localhost:3000/cars/649124f8e889d87e7a93500d
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
