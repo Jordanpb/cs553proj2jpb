@@ -10,6 +10,9 @@ COPY package*.json ./
 # Install dependencies
 RUN npm install
 
+# Install nodemon globally to enable live code reloading
+RUN npm install -g nodemon
+
 # Copy the application files
 COPY . .
 

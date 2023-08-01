@@ -3,6 +3,17 @@ const soap = require('soap');
 const express = require('express');
 const bodyParser = require('body-parser');
 
+// Sample function to get random price and delivery date
+function getRandomPrice() {
+  return Math.floor(Math.random() * 100) + 10; // Generate random price between 10 and 100
+}
+
+function getRandomDeliveryDate() {
+  const deliveryDate = new Date();
+  deliveryDate.setDate(deliveryDate.getDate() + Math.floor(Math.random() * 10) + 1); // Add random days (1 to 10) to current date
+  return deliveryDate.toISOString();
+}
+
 var myService = {
   MyService: {
     MyPort: {
@@ -43,7 +54,21 @@ var myService = {
         return {
           name: headers.Token
         };
-      }
+      },
+
+      // New operation to get part information
+      GetPartInfo: function(args) {
+        const partNumber = args.partNumber;
+        const price = getRandomPrice();
+        const deliveryDate = getRandomDeliveryDate();
+
+        // Convert the SOAP response to JSON
+        return {
+          partNumber: partNumber,
+          price: price,
+          deliveryDate: deliveryDate,
+        };
+      },
     }
   }
 };
@@ -58,10 +83,10 @@ app.use(bodyParser.raw({type: function(){return true;}, limit: '5mb'}));
 app.listen(8000, function(){
   //Note: /wsdl route will be handled by soap module
   //and all other routes & middleware will continue to work
-  const server = soap.listen(app, '/SSNLookup', myService, xml, function(){
-    console.log('server initialized');
+  const server = soap.listen(app, '/GetPartInfo', myService, xml, function(){
+    console.log('soap server initialized');
   });
-  server.log = (type, data)  => {
+  server.log = (type, data) => {
     console.log(`Got something ${type} ${data}`);
   }
 });

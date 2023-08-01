@@ -10,11 +10,25 @@
     <message name="SSNLookupResponse">
         <part name="ssn" type="xsd:string"/>
     </message>
+    <message name="GetPartInfoInput">
+        <part name="partNumber" type="xsd:string" />
+    </message>
+    <message name="GetPartInfoOutput">
+        <part name="partNumber" type="xsd:string" />
+        <part name="price" type="xsd:int" />
+        <part name="deliveryDate" type="xsd:string" />
+    </message>
+
     <portType name="MyPort">
         <operation name="SSNLookup">
             <input message="tns:SSNLookupRequest"/>
             <output message="tns:SSNLookupResponse"/>
         </operation>
+        <operation name="GetPartInfo">
+            <input message="tns:GetPartInfoInput" />
+            <output message="tns:GetPartInfoOutput" />
+        </operation>
+
     </portType>
     <binding name = "SSNLookup_Binding" type="tns:MyPort">
         <soap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/>
@@ -27,11 +41,20 @@
                 <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:examples:MyService" use="encoded"/>
             </output>
         </operation>
+        <operation name="GetPartInfo">
+            <soap:operation soapAction="GetPartInfo" />
+            <input>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:examples:MyService" use="encoded" />
+            </input>
+            <output>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:examples:MyService" use="encoded" />
+            </output>
+        </operation>
     </binding>
     <service name="MyService">
         <documentation>WSDL File for MyService</documentation>
         <port binding="tns:SSNLookup_Binding" name="MyPort">
-            <soap:address location = "http://soapapp:8000/SSNLookup/" />
+            <soap:address location = "http://soapapp:8000/GetPartInfo/" />
         </port>
     </service>
 </definitions>

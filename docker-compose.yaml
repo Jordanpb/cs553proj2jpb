@@ -4,23 +4,39 @@ services:
     build:
       context: ./rest-server
       dockerfile: Dockerfile
+    container_name: rest_backend
+    volumes:
+      - ./rest-server:/usr/src/app
     ports:
       - 3000:3000
+    environment:
+      - NODE_ENV=development      
     depends_on:
       - mongodb
 
   soap-server:
     build:
       context: ./soap-server
+      dockerfile: Dockerfile
+    container_name: soap_backend
+    volumes:
+      - ./soap-server:/usr/src/app
     ports:
       - 8000:8000
+    environment:
+      - NODE_ENV=development
     entrypoint: node soap-server.js
 
   frontend:
     build:
       context: ./frontend
+    container_name: frontend_container
+    volumes:
+      - ./frontend:/usr/src/app
     ports:
       - 80:3000
+    environment:
+      - NODE_ENV=development
     depends_on:
       - rest-server
     # volumes:
